@@ -5,7 +5,7 @@
 #! /bin/bash
 PATH=/bin:/sbin:/usr/bin:/usr/sbin:/usr/local/bin:/usr/local/sbin:~/bin
 export PATH
-v2ray_dir="/etc/v2ray"
+v2ray_dir="/usr/local/etc/v2ray/"
 [[ ! -e ${v2ray_dir} ]] && mkdir "${v2ray_dir}"
 function set_fonts_colors(){
 # Font colors
