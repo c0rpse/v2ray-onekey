@@ -154,7 +154,8 @@ function data_processing(){
 		generate_base_config
 #clear
 		echo -e "安装V2Ray主程序中..."
-		bash <(curl https://install.direct/go.sh)
+# 		bash <(curl https://install.direct/go.sh)
+        bash <(curl https://raw.githubusercontent.com/v2fly/fhs-install-v2ray/master/install-release.sh)
 		if [[ $? -eq 0 ]];then
 #clear
 			echo -e "${ok_font}V2Ray安装成功。"
