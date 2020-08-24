@@ -19,28 +19,28 @@ ok_font="${green_fontcolor}[OK]${default_fontcolor}"
 }
 
 function check_os(){
-	#clear
+#clear
 	echo -e "正在检测当前是否为ROOT用户..."
 	if [[ $EUID -ne 0 ]]; then
-		#clear
+		clear
 		echo -e "${error_font}当前并非ROOT用户，请先切换到ROOT用户后再使用本脚本。"
 		exit 1
 	else
-		#clear
+		clear
 		echo -e "${ok_font}检测到当前为Root用户。"
 	fi
-	#clear
+#clear
 	echo -e "正在检测此OS是否被支持..."
 	if [ ! -z "$(cat /etc/issue | grep Debian)" ];then
 		OS='debian'
-		#clear
+		clear
 		echo -e "${ok_font}该脚本支持您的系统。"
 	elif [ ! -z "$(cat /etc/issue | grep Ubuntu)" ];then
 		OS='ubuntu'
-		#clear
+		clear
 		echo -e "${ok_font}该脚本支持您的系统。"
 	else
-		#clear
+		clear
 		echo -e "${error_font}目前暂不支持您使用的操作系统，请切换至Debian/Ubuntu。"
 		exit 1
 	fi
@@ -80,7 +80,7 @@ function check_install_status(){
 }
 
 function echo_install_list(){
-	#clear
+#clear
 	echo -e "脚本当前安装状态：${install_status}
 --------------------------------------------------------------------------------------------------
 安装V2ray:
@@ -108,15 +108,15 @@ Vmess链接：${now_vmess_link}
 --------------------------------------------------------------------------------------------------"
 	stty erase '^H' && read -p "请输入序号：" determine_type
 	if [[ ${determine_type} = "" ]]; then
-		#clear
+		clear
 		echo -e "${error_font}请输入序号！"
 		exit 1
 	elif [[ ${determine_type} -lt 0 ]]; then
-		#clear
+		clear
 		echo -e "${error_font}请输入正确的序号！"
 		exit 1
 	elif [[ ${determine_type} -gt 14 ]]; then
-		#clear
+		clear
 		echo -e "${error_font}请输入正确的序号！"
 		exit 1
 	else
@@ -125,7 +125,7 @@ Vmess链接：${now_vmess_link}
 }
 
 function data_processing(){
-	#clear
+#clear
 	echo -e "正在处理请求中..."
 	if [[ ${determine_type} = "0" ]]; then
 		uninstall_old
@@ -152,14 +152,14 @@ function data_processing(){
 		os_update
 		check_time
 		generate_base_config
-		#clear
+		clear
 		echo -e "安装V2Ray主程序中..."
 		bash <(curl https://install.direct/go.sh)
 		if [[ $? -eq 0 ]];then
-			#clear
+			clear
 			echo -e "${ok_font}V2Ray安装成功。"
 		else
-			#clear
+			clear
 			echo -e "${error_font}V2Ray安装失败！"
 			exit 1
 		fi
@@ -167,12 +167,12 @@ function data_processing(){
 		if [[ ${determine_type} = "1" ]]; then
 			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/socks5.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}Socks5 配置文件下载成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}Socks5 配置文件下载失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			input_port
@@ -182,12 +182,12 @@ function data_processing(){
 			else
 				sed -i "s/username/${install_socks_username}/g" "/etc/v2ray/config.json"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}Socks用户名配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}Socks用户名配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 			fi
@@ -197,23 +197,23 @@ function data_processing(){
 			else
 				sed -i "s/passwd/${install_socks_password}/g" "/etc/v2ray/config.json"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}Socks密码配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}Socks密码配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 			fi
 			echo "1" > /etc/v2ray/install_type.txt
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}写入安装信息成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}写入安装信息失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			restart_service
@@ -221,79 +221,79 @@ function data_processing(){
 		elif [[ ${determine_type} = "2" ]]; then
 			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/tcp-http.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray 配置文件下载失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			#clear
+			clear
 			install_port="80"
 			check_port
 			sed -i "s/UserUUID/${UUID}/g" "/etc/v2ray/config.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray UUID配置成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray UUID配置失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			#clear
+			clear
 			stty erase '^H' && read -p "请输入伪装域名，多个域名请使用英文逗号\",\"隔开(默认：cache.m.iqiyi.com)：" false_domain
 			if [[ ${false_domain} = "" ]]; then
 				false_domain="cache.m.iqiyi.com"
 			else
 				sed -i "s/cache.m.iqiyi.com/${false_domain}/g" "/etc/v2ray/config.json"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}V2Ray 伪装域名配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}V2Ray 伪装域名配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 			fi
 			echo "2" > /etc/v2ray/install_type.txt
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}写入安装信息成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}写入安装信息失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			restart_service
 			echo_v2ray_config
 		elif [[ ${determine_type} = "3" ]]; then
-			#clear
+			clear
 			echo -e "正在安装acme.sh中..."
 			curl https://get.acme.sh | sh
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}acme.sh 安装成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}acme.sh 安装失败，请检查相关依赖是否正确安装。"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/tcp-tls.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray 配置文件下载失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			#clear
+			clear
 			stty erase '^H' && read -p "请输入监听端口(默认监听443端口)：" install_port
 			if [[ ${install_port} = "" ]]; then
 			install_port="443"
@@ -301,84 +301,84 @@ function data_processing(){
 			check_port
 			sed -i "s/443/${install_port}/g" "/etc/v2ray/config.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray端口配置成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray端口配置失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			#clear
-			sed -i "s/UserUUID/${UUID}/g" "/etc/v2ray/config.json"	
+			clear
+			sed -i "s/UserUUID/${UUID}/g" "/etc/v2ray/config.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray UUID配置成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray UUID配置失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			#clear
+			clear
 			stty erase '^H' && read -p "请输入您的域名：" install_domain
 			if [[ ${install_domain} = "" ]]; then
-				#clear
+				clear
 				echo -e "${error_font}请输入您的域名。"
-				#clear_linstall
+				clear_linstall
 				exit 1
 			else
-				#clear
+				clear
 				echo -e "正在签发证书中..."
 				bash ~/.acme.sh/acme.sh --issue -d ${install_domain} --standalone -k ec-256 --force
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}证书生成成功。"
 					bash ~/.acme.sh/acme.sh --installcert -d ${install_domain} --fullchainpath /etc/v2ray/pem.pem --keypath /etc/v2ray/key.key --ecc
 					if [[ $? -eq 0 ]];then
-						#clear
+						clear
 						echo -e "${ok_font}证书配置成功。"
 					else
-						#clear
+						clear
 						echo -e "${error_font}证书配置失败！"
-						#clear_install
+						clear_install
 						exit 1
 					fi
 				else
-					#clear
+					clear
 					echo -e "${error_font}证书生成失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				sed -i "s/V2rayAddress/${install_domain}/g" "/etc/v2ray/config.json"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}V2Ray 域名配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}V2Ray 域名配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				echo "${install_domain}" > /etc/v2ray/full_domain.txt
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}V2Ray 域名写入成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}V2Ray 域名写入失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 			fi
 			echo "3" > /etc/v2ray/install_type.txt
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}写入安装信息成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}写入安装信息失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			restart_service
@@ -386,34 +386,34 @@ function data_processing(){
 		elif [[ ${determine_type} = "4" ]]; then
 			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/mkcp-utp.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray 配置文件下载失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			#clear
+			clear
 			input_port
 			sed -i "s/UserUUID/${UUID}/g" "/etc/v2ray/config.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray UUID配置成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray UUID配置失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			echo "4" > /etc/v2ray/install_type.txt
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}写入安装信息成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}写入安装信息失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			restart_service
@@ -421,34 +421,34 @@ function data_processing(){
 		elif [[ ${determine_type} = "5" ]]; then
 			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/mkcp-dtls.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray 配置文件下载失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			#clear
+			clear
 			input_port
 			sed -i "s/UserUUID/${UUID}/g" "/etc/v2ray/config.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray UUID配置成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray UUID配置失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			echo "5" > /etc/v2ray/install_type.txt
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}写入安装信息成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}写入安装信息失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			restart_service
@@ -456,24 +456,24 @@ function data_processing(){
 		elif [[ ${determine_type} = "6" ]]; then
 			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/mkcp-srtp-dynport.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray 配置文件下载失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			#clear
+			clear
 			input_port
 			sed -i "s/UserUUID/${UUID}/g" "/etc/v2ray/config.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray UUID配置成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray UUID配置失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			stty erase '^H' && read -p "请输入动态端口范围(默认范围：60000-61315)：" install_dynport
@@ -482,51 +482,51 @@ function data_processing(){
 			else
 				sed -i "s/60000-61315/${install_dynport}/g" "/etc/v2ray/config.json"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}V2Ray 动态端口配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}V2Ray 动态端口配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 			fi
 			echo "6" > /etc/v2ray/install_type.txt
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}写入安装信息成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}写入安装信息失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			restart_service
 			echo_v2ray_config
 		elif [[ ${determine_type} = "7" ]]; then
-			#clear
+			clear
 			echo -e "正在安装acme.sh中..."
 			curl https://get.acme.sh | sh
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}acme.sh 安装成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}acme.sh 安装失败，请检查相关依赖是否正确安装。"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/h2-path.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray 配置文件下载失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			#clear
+			clear
 			stty erase '^H' && read -p "请输入监听端口(默认监听443端口)：" install_port
 			if [[ ${install_port} = "" ]]; then
 			install_port="443"
@@ -534,327 +534,327 @@ function data_processing(){
 			check_port
 			sed -i "s/443/${install_port}/g" "/etc/v2ray/config.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray端口配置成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray端口配置失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			sed -i "s/UserUUID/${UUID}/g" "/etc/v2ray/config.json"	
+			sed -i "s/UserUUID/${UUID}/g" "/etc/v2ray/config.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray UUID配置成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray UUID配置失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			#clear
+			clear
 			stty erase '^H' && read -p "请输入您的域名：" install_domain
 			if [[ ${install_domain} = "" ]]; then
-				#clear
+				clear
 				echo -e "${error_font}请输入您的域名。"
-				#clear_install
+				clear_install
 				exit 1
 			else
-				#clear
+				clear
 				echo -e "正在签发证书中..."
 				bash ~/.acme.sh/acme.sh --issue -d ${install_domain} --standalone -k ec-256 --force
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}证书生成成功。"
 					bash ~/.acme.sh/acme.sh --installcert -d ${install_domain} --fullchainpath /etc/v2ray/pem.pem --keypath /etc/v2ray/key.key --ecc
 					if [[ $? -eq 0 ]];then
-						#clear
+						clear
 						echo -e "${ok_font}证书配置成功。"
 					else
-						#clear
+						clear
 						echo -e "${error_font}证书配置失败！"
-						#clear_install
+						clear_install
 						exit 1
 					fi
 				else
-					#clear
+					clear
 					echo -e "${error_font}证书生成失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				sed -i "s/V2rayAddress/${install_domain}/g" "/etc/v2ray/config.json"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}V2Ray 域名配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}V2Ray 域名配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				echo "${install_domain}" > /etc/v2ray/full_domain.txt
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}V2Ray 域名写入成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}V2Ray 域名写入失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				sed -i "s/PathUUID/${UUID2}/g" "/etc/v2ray/config.json"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}V2Ray UUID配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}V2Ray UUID配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 			fi
 			echo "7" > /etc/v2ray/install_type.txt
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}写入安装信息成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}写入安装信息失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			restart_service
 			echo_v2ray_config
 		elif [[ ${determine_type} = "8" ]]; then
-			#clear
+			clear
 			echo -e "正在安装acme.sh中..."
 			curl https://get.acme.sh | sh
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}acme.sh 安装成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}acme.sh 安装失败，请检查相关依赖是否正确安装。"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			bash <(curl https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/caddy_install.sh)
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}Caddy 安装成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}Caddy 安装失败，请检查相关依赖是否正确安装。"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/websocket-tls-website-path.json"
 			wget -O "/usr/local/caddy/Caddyfile" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/websocket-tls-website-path.Caddyfile"
-			#clear
+			clear
 			install_port="80"
 			check_port
-			#clear
+			clear
 			install_port="443"
 			check_port
-			sed -i "s/UserUUID/${UUID}/g" "/etc/v2ray/config.json"	
+			sed -i "s/UserUUID/${UUID}/g" "/etc/v2ray/config.json"
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray UUID配置成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray UUID配置失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
-			#clear
+			clear
 			stty erase '^H' && read -p "请输入您的域名：" install_domain
 			if [[ ${install_domain} = "" ]]; then
-				#clear
+				clear
 				echo -e "${error_font}请输入您的域名。"
-				#clear_install
+				clear_install
 				exit 1
 			else
-				#clear
+				clear
 				echo -e "正在签发证书中..."
 				bash ~/.acme.sh/acme.sh --issue -d ${install_domain} --standalone -k ec-256 --force
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}证书生成成功。"
 					bash ~/.acme.sh/acme.sh --installcert -d ${install_domain} --fullchainpath /etc/v2ray/pem.pem --keypath /etc/v2ray/key.key --ecc
 					if [[ $? -eq 0 ]];then
-						#clear
+						clear
 						echo -e "${ok_font}证书配置成功。"
 					else
-						#clear
+						clear
 						echo -e "${error_font}证书配置失败！"
-						#clear_install
+						clear_install
 						exit 1
 					fi
 				else
-					#clear
+					clear
 					echo -e "${error_font}证书生成失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				sed -i "s/V2rayAddress/${install_domain}/g" "/etc/v2ray/config.json"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}V2Ray 域名配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}V2Ray 域名配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				echo "${install_domain}" > /etc/v2ray/full_domain.txt
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}V2Ray 域名写入成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}V2Ray 域名写入失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				sed -i "s/PathUUID/${UUID2}/g" "/etc/v2ray/config.json"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}V2Ray UUID配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}V2Ray UUID配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				sed -i "s/PathUUID/${UUID2}/g" "/usr/local/caddy/Caddyfile"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}Caddy UUID配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}Caddy UUID配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				sed -i "s/V2rayAddress/${install_domain}/g" "/usr/local/caddy/Caddyfile"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}Caddy 域名配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}Caddy 域名配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				sed -i "s/V2RayListenPort/${v2_listen_port}/g" "/etc/v2ray/config.json"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}V2Ray 监听端口配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}V2Ray 监听端口配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				sed -i "s/V2RayListenPort/${v2_listen_port}/g" "/usr/local/caddy/Caddyfile"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}Caddy 监听端口配置成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}Caddy 监听端口配置失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				mkdir /etc/v2ray/pages
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}创建文件夹成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}创建文件夹失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				cd /etc/v2ray/pages
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}进入文件夹成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}进入文件夹失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				wget -O "/etc/v2ray/pages/v2ray-page.zip" "https://github.com/c0rpse/v2ray-onekey/blob/master/pages/v2ray-page.zip?raw=true"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}下载网页文件压缩包成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}下载网页文件压缩包失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				unzip /etc/v2ray/pages/v2ray-page.zip
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}解压网页文件成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}解压网页文件失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				rm -rf /etc/v2ray/pages/v2ray-page.zip
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}删除网页文件压缩包成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}删除网页文件压缩包失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				sed -i "s/HTML_NUMBER/${html_number}/g" "/etc/v2ray/pages/index.html"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}配置网页电话号成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}配置网页电话号失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 				sed -i "s/V2rayAddress/${install_domain}/g" "/etc/v2ray/pages/index.html"
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}配置网页域名成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}配置网页域名失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 			fi
 			echo "8" > /etc/v2ray/install_type.txt
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}写入安装信息成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}写入安装信息失败！"
-				#clear_install
+				clear_install
 				exit 1
 			fi
 				cd /root/
 				if [[ $? -eq 0 ]];then
-					#clear
+					clear
 					echo -e "${ok_font}返回root文件夹成功。"
 				else
-					#clear
+					clear
 					echo -e "${error_font}返回root文件夹失败！"
-					#clear_install
+					clear_install
 					exit 1
 				fi
 			restart_service
@@ -864,11 +864,11 @@ function data_processing(){
 }
 
 function uninstall_old(){
-	#clear
+#clear
 	echo -e "正在检查安装信息中..."
-	#clear
+#clear
 	if [[ ${v2ray_status} = "${red_fontcolor}未安装${default_fontcolor}" ]]; then
-		#clear
+		clear
 		echo -e "${error_font}您未安装V2Ray。"
 	else
 		service v2ray stop
@@ -881,18 +881,18 @@ function uninstall_old(){
 		rm -rf /usr/bin/v2ray
 		rm -rf /var/log/v2ray
 		if [[ $? -eq 0 ]];then
-			#clear
+			clear
 			echo -e "${ok_font}V2Ray卸载成功。"
 		else
-			#clear
+			clear
 			echo -e "${error_font}V2Ray卸载失败！"
 		fi
 	fi
-	#clear
+#clear
 	stty erase '^H' && read -p "您是否需要卸载Caddy？[Y/N,Default:N]" uninstall_caddy_right
 	if [[ ${uninstall_caddy_right} == [Yy] ]]; then
 		if [[ ${caddy_status} = "${red_fontcolor}未安装${default_fontcolor}" ]]; then
-			#clear
+			clear
 			echo -e "${error_font}您未安装Caddy。"
 		else
 			service caddy stop
@@ -901,40 +901,40 @@ function uninstall_old(){
 			rm -rf /root/.caddy
 			rm -rf /usr/local/caddy
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}Caddy卸载成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}Caddy卸载失败！"
 			fi
 		fi
 	else
-		#clear
+		clear
 		echo -e "${ok_font}取消卸载Caddy成功。"
 	fi
 }
 
 function upgrade_shell_script(){
-	#clear
+#clear
 	echo -e "正在更新脚本中..."
 	filepath=$(cd "$(dirname "$0")"; pwd)
 	filename=$(echo -e "${filepath}"|awk -F "$0" '{print $1}')
 	curl -O https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/v2ray-go.sh
 	if [[ $? -eq 0 ]];then
-		#clear
+		clear
 		echo -e "${ok_font}脚本更新成功，脚本位置：\"${green_backgroundcolor}${filename}/v2ray-go.sh${default_fontcolor}\"，使用：\"${green_backgroundcolor}bash ${filename}/v2ray-go.sh${default_fontcolor}\"。"
 	else
-		#clear
+		clear
 		echo -e "${error_font}脚本更新失败！"
 	fi
 }
 
 function prevent_uninstall_check(){
-	#clear
+#clear
 	echo -e "正在检查安装状态中..."
 	install_type=$(cat /etc/v2ray/install_type.txt)
 	if [ "${install_type}" = "" ]; then
-		#clear
+		clear
 		echo -e "${error_font}您未安装本程序。"
 		exit 1
 	else
@@ -943,23 +943,23 @@ function prevent_uninstall_check(){
 }
 
 function start_service(){
-	#clear
+#clear
 	echo -e "正在启动服务中..."
 	install_type=$(cat /etc/v2ray/install_type.txt)
 	if [ "${install_type}" -lt "8" ]; then
 		if [[ ${v2ray_pid} -eq 0 ]]; then
 			service v2ray start
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray 启动成功。"
 				exit 0
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray 启动失败！"
 				exit 1
 			fi
 		else
-			#clear
+			clear
 			echo -e "${error_font}V2Ray 正在运行。"
 			exit 1
 		fi
@@ -967,14 +967,14 @@ function start_service(){
 		if [[ ${v2ray_pid} -eq 0 ]]; then
 			service v2ray start
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray 启动成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray 启动失败！"
 			fi
 		else
-			#clear
+			clear
 			echo -e "${error_font}V2Ray 正在运行。"
 		fi
 		if [[ ${caddy_pid} -eq 0 ]]; then
@@ -994,36 +994,36 @@ function start_service(){
 }
 
 function stop_service(){
-	#clear
+#clear
 	echo -e "正在停止服务中..."
 	install_type=$(cat /etc/v2ray/install_type.txt)
 	if [ "${install_type}" -lt "8" ]; then
 		if [[ ${v2ray_pid} -eq 0 ]]; then
-			#clear
+			clear
 			echo -e "${error_font}V2Ray 未在运行。"
 		else
 			service v2ray stop
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray 停止成功。"
 				exit 0
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray 停止失败！"
 				exit 1
 			fi
 		fi
 	else
 		if [[ ${v2ray_pid} -eq 0 ]]; then
-			#clear
+			clear
 			echo -e "${error_font}V2Ray 未在运行。"
 		else
 			service v2ray stop
 			if [[ $? -eq 0 ]];then
-				#clear
+				clear
 				echo -e "${ok_font}V2Ray 停止成功。"
 			else
-				#clear
+				clear
 				echo -e "${error_font}V2Ray 停止失败！"
 			fi
 		fi
@@ -1043,25 +1043,25 @@ function stop_service(){
 }
 
 function restart_service(){
-	#clear
+#clear
 	echo -e "正在重启服务中..."
 	install_type=$(cat /etc/v2ray/install_type.txt)
 	if [ "${install_type}" -lt "8" ]; then
 		service v2ray restart
 		if [[ $? -eq 0 ]];then
-			#clear
+			clear
 			echo -e "${ok_font}V2Ray 重启成功。"
 		else
-			#clear
+			clear
 			echo -e "${error_font}V2Ray 重启失败！"
 		fi
 	else
 		service v2ray restart
 		if [[ $? -eq 0 ]];then
-			#clear
+			clear
 			echo -e "${ok_font}V2Ray 重启成功。"
 		else
-			#clear
+			clear
 			echo -e "${error_font}V2Ray 重启失败！"
 		fi
 		service caddy restart
@@ -1074,7 +1074,7 @@ function restart_service(){
 }
 
 function prevent_install_check(){
-	#clear
+#clear
 	echo -e "正在检测安装状态中..."
 	if [[ ${determine_type} -lt 9 ]]; then
 		if [[ ${install_status} = "${green_fontcolor}已安装${default_fontcolor}" ]]; then
@@ -1099,7 +1099,7 @@ function prevent_install_check(){
 }
 
 function uninstall_program(){
-	#clear
+#clear
 	echo -e "正在卸载中..."
 	install_type=$(cat /etc/v2ray/install_type.txt)
 	if [ "${install_type}" -lt "8" ]; then
@@ -1117,10 +1117,10 @@ function uninstall_program(){
 		rm -rf /usr/bin/v2ray
 		rm -rf /var/log/v2ray
 		if [[ $? -eq 0 ]];then
-			#clear
+			clear
 			echo -e "${ok_font}V2Ray卸载成功。"
 		else
-			#clear
+			clear
 			echo -e "${error_font}V2Ray卸载失败！"
 		fi
 	else
@@ -1136,10 +1136,10 @@ function uninstall_program(){
 		rm -rf /usr/bin/v2ray
 		rm -rf /var/log/v2ray
 		if [[ $? -eq 0 ]];then
-			#clear
+			clear
 			echo -e "${ok_font}V2Ray卸载成功。"
 		else
-			#clear
+			clear
 			echo -e "${error_font}V2Ray卸载失败！"
 		fi
 		service caddy stop
@@ -1156,25 +1156,25 @@ function uninstall_program(){
 }
 
 function upgrade_program(){
-	#clear
+#clear
 	echo -e "正在更新程序中..."
 	install_type=$(cat /etc/v2ray/install_type.txt)
 	if [ "${install_type}" -lt "8" ]; then
 		bash <(curl https://install.direct/go.sh)
 		if [[ $? -eq 0 ]];then
-			#clear
+			clear
 			echo -e "${ok_font}V2Ray 更新成功。"
 		else
-			#clear
+			clear
 			echo -e "${error_font}V2Ray 更新失败！"
 		fi
 	else
 		bash <(curl https://install.direct/go.sh)
 		if [[ $? -eq 0 ]];then
-			#clear
+			clear
 			echo -e "${ok_font}V2Ray 更新成功。"
 		else
-			#clear
+			clear
 			echo -e "${error_font}V2Ray 更新失败！"
 		fi
 		bash <(curl https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/caddy_install.sh)
@@ -1186,8 +1186,8 @@ function upgrade_program(){
 	fi
 }
 
-function #clear_install(){
-	#clear
+function clear_install(){
+#clear
 	echo -e "正在卸载中..."
 	if [ "${determine_type}" -lt "8" ]; then
 		full_domain=$(cat /etc/v2ray/full_domain.txt)
@@ -1204,10 +1204,10 @@ function #clear_install(){
 		rm -rf /usr/bin/v2ray
 		rm -rf /var/log/v2ray
 		if [[ $? -eq 0 ]];then
-			#clear
+			clear
 			echo -e "${ok_font}V2Ray卸载成功。"
 		else
- 			#clear
+ 			clear
 			echo -e "${error_font}V2Ray卸载失败！"
 		fi
 	else
@@ -1222,10 +1222,10 @@ function #clear_install(){
 		rm -rf /usr/bin/v2ray
 		rm -rf /var/log/v2ray
 		if [[ $? -eq 0 ]];then
-			#clear
+			clear
 			echo -e "${ok_font}V2Ray卸载成功。"
 		else
-			#clear
+			clear
 			echo -e "${error_font}V2Ray卸载失败！"
 		fi
 		service caddy stop
@@ -1242,41 +1242,41 @@ function #clear_install(){
 }
 
 function os_update(){
-	#clear
+#clear
 	echo -e "正在安装/更新系统组件中..."
-	#clear
+#clear
 	apt-get -y update
 	apt-get -y upgrade
 	apt-get -y install wget curl ntpdate unzip socat lsof cron iptables
 	if [[ $? -ne 0 ]];then
-		#clear
+		clear
 		echo -e "${error_font}系统组件更新失败！"
 		exit 1
 	else
-		#clear
+		clear
 		echo -e "${ok_font}系统组件更新成功。"
 	fi
 }
 
 function check_time(){
-	#clear
+#clear
 	echo -e "正在对时中..."
 	rm -rf /etc/localtime
 	cp /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 	ntpdate time.nist.gov
 	if [[ $? -eq 0 ]];then
-		#clear
+		clear
 		echo -e "${ok_font}时间同步成功。"
 		echo -e "${ok_font}当前系统时间 $(date -R) （请注意时区间时间换算，换算后时间误差应为三分钟以内）"
 	else
-		#clear
+		clear
 		echo -e "${error_font}时间同步失败，请检查ntpdate服务是否正常工作。"
 		echo -e "${error_font}当前系统时间 $(date -R) ，如果和你的本地时间有误差，请手动调整。"
-	fi 
+	fi
 }
 
 function generate_base_config(){
-	#clear
+#clear
 	echo "正在生成基础信息中..."
 	hostname=$(hostname)
 	Address=$(curl https://ipinfo.io/ip)
@@ -1285,31 +1285,31 @@ function generate_base_config(){
 	let v2_listen_port=$RANDOM+10000
 	let html_number=$RANDOM+10000
 	if [[ ${hostname} = "" ]]; then
-		#clear
+		clear
 		echo -e "${error_font}读取Hostname失败！"
 		exit 1
 	elif [[ ${Address} = "" ]]; then
-		#clear
+		clear
 		echo -e "${error_font}读取vps_ip失败！"
 		exit 1
 	elif [[ ${UUID} = "" ]]; then
-		#clear
+		clear
 		echo -e "${error_font}生成UUID失败！"
 		exit 1
 	elif [[ ${UUID2} = "" ]]; then
-		#clear
+		clear
 		echo -e "${error_font}生成UUID2失败！"
 		exit 1
 	elif [[ ${v2_listen_port} = "" ]]; then
-		#clear
+		clear
 		echo -e "${error_font}生成V2Ray监听端口失败！"
 		exit 1
 	elif [[ ${html_number} = "" ]]; then
-		#clear
+		clear
 		echo -e "${error_font}生成网页随机数字失败！"
 		exit 1
 	else
-		#clear
+		clear
 		echo -e "${ok_font}您的主机名为：${hostname}"
 		echo -e "${ok_font}您的vps_ip为：${Address}"
 		echo -e "${ok_font}生成的UUID为：${UUID}"
@@ -1320,7 +1320,7 @@ function generate_base_config(){
 }
 
 function input_port(){
-	#clear
+#clear
 	stty erase '^H' && read -p "请输入监听端口(默认监听8080端口)：" install_port
 	if [[ ${install_port} = "" ]]; then
 		install_port="8080"
@@ -1328,34 +1328,34 @@ function input_port(){
 	check_port
 	sed -i "s/8080/${install_port}/g" "/etc/v2ray/config.json"
 	if [[ $? -eq 0 ]];then
-		#clear
+		clear
 		echo -e "${ok_font}V2Ray端口配置成功。"
 	else
-		#clear
+		clear
 		echo -e "${error_font}V2Ray端口配置失败！"
-		#clear_install
+		clear_install
 		exit 1
 	fi
 }
 
 function check_port(){
-	#clear
+#clear
 	echo "正在检查端口占用情况："
 	if [[ 0 -eq $(lsof -i:"${install_port}" | wc -l) ]];then
-		#clear
+		clear
 		echo -e "${ok_font}端口未被占用。"
 		open_port
 		echo "${install_port}" > /etc/v2ray/install_port.txt
 	else
-		#clear
+		clear
 		echo -e "${error_font}端口被占用，请切换使用其他端口。"
-		#clear_install
+		clear_install
 		exit 1
 	fi
 }
 
 function open_port(){
-	#clear
+#clear
 	echo -e "正在设置防火墙中..."
 	iptables-save > /etc/iptables.up.rules
 	echo -e '#!/bin/bash\n/sbin/iptables-restore < /etc/iptables.up.rules' > /etc/network/if-pre-up.d/iptables
@@ -1364,19 +1364,19 @@ function open_port(){
 	iptables -I INPUT -m state --state NEW -m udp -p udp --dport ${install_port} -j ACCEPT
 	iptables-save > /etc/iptables.up.rules
 	if [[ $? -eq 0 ]];then
-		#clear
+		clear
 		echo -e "${ok_font}端口开放配置成功。"
 	else
-		#clear
+		clear
 		echo -e "${error_font}端口开放配置失败！"
-		#clear_install
+		clear_install
 		exit 1
 	fi
 }
 
 function echo_v2ray_config(){
 	if [[ ${determine_type} = "1" ]]; then
-		#clear
+		clear
 		vmesslink="https://t.me/socks?server=${Address}&port=${install_port}&user=${install_socks_username}&pass=${install_socks_password}"
 		echo -e "您的连接信息如下："
 		echo -e "地址(Hostname)：${Address}"
@@ -1386,7 +1386,7 @@ function echo_v2ray_config(){
 		echo -e "代理协议(Proxy Type)：socks5"
 		echo -e "Telegram设置链接： ${green_backgroundcolor}${vmesslink}${default_fontcolor}"
 	elif [[ ${determine_type} = "2" ]]; then
-		#clear
+		clear
 		vmesslink="vmess://"$(echo -e "{
 \"v\": "2",
 \"ps\": \"${hostname}\",
@@ -1412,7 +1412,7 @@ function echo_v2ray_config(){
 		echo -e "伪装域名/其他项：${false_domain}"
 		echo -e "Vmess链接：${green_backgroundcolor}${vmesslink}${default_fontcolor}"
 	elif [[ ${determine_type} = "3" ]]; then
-		#clear
+		clear
 		vmesslink="vmess://"$(echo -e "{
 \"v\": "2",
 \"ps\": \"${hostname}\",
@@ -1437,7 +1437,7 @@ function echo_v2ray_config(){
 		echo -e "底层传输安全(TLS）：tls"
 		echo -e "Vmess链接：${green_backgroundcolor}${vmesslink}${default_fontcolor}"
 	elif [[ ${determine_type} = "4" ]]; then
-		#clear
+		clear
 		vmesslink="vmess://"$(echo -e "{
 \"v\": "2",
 \"ps\": \"${hostname}\",
@@ -1462,7 +1462,7 @@ function echo_v2ray_config(){
 		echo -e "伪装类型：utp"
 		echo -e "Vmess链接：${green_backgroundcolor}${vmesslink}${default_fontcolor}"
 	elif [[ ${determine_type} = "5" ]]; then
-		#clear
+		clear
 		vmesslink="vmess://"$(echo -e "{
 \"v\": "2",
 \"ps\": \"${hostname}\",
@@ -1487,7 +1487,7 @@ function echo_v2ray_config(){
 		echo -e "伪装类型：dtls"
 		echo -e "Vmess链接：${green_backgroundcolor}${vmesslink}${default_fontcolor}"
 	elif [[ ${determine_type} = "6" ]]; then
-		#clear
+		clear
 		vmesslink="vmess://"$(echo -e "{
 \"v\": "2",
 \"ps\": \"${hostname}\",
@@ -1512,7 +1512,7 @@ function echo_v2ray_config(){
 		echo -e "伪装类型：srtp"
 		echo -e "Vmess链接：${green_backgroundcolor}${vmesslink}${default_fontcolor}"
 	elif [[ ${determine_type} = "7" ]]; then
-		#clear
+		clear
 		vmesslink="vmess://"$(echo -e "{
 \"v\": "2",
 \"ps\": \"${hostname}\",
@@ -1538,7 +1538,7 @@ function echo_v2ray_config(){
 		echo -e "路径Path：/eye4eye/${UUID2}"
 		echo -e "Vmess链接：${green_backgroundcolor}${vmesslink}${default_fontcolor}"
 	elif [[ ${determine_type} = "8" ]]; then
-		#clear
+		clear
 		vmesslink="vmess://"$(echo -e "{
 \"v\": "2",
 \"ps\": \"${hostname}\",
