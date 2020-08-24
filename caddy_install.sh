@@ -64,11 +64,11 @@ Download_caddy(){
 # 	rm -rf "caddy_linux.tar.gz"
 
 	if [[ ${bit} == "x86_64" ]]; then
-		curl --output caddy -XGET https://caddyserver.com/api/download?os=linux&arch=amd64
+		curl --output caddy -XGET "https://caddyserver.com/api/download?os=linux&arch=amd64"
 	elif [[ ${bit} == "i386" || ${bit} == "i686" ]]; then
-		curl --output caddy -XGET https://caddyserver.com/api/download?os=linux&arch=386
+		curl --output caddy -XGET "https://caddyserver.com/api/download?os=linux&arch=386"
 	elif [[ ${bit} == "armv7l" ]]; then
-		curl --output caddy -XGET https://caddyserver.com/api/download?os=linux&arch=arm7
+		curl --output caddy -XGET "https://caddyserver.com/api/download?os=linux&arch=arm7"
 	else
 		echo -e "${Error_font_prefix}[错误]${Font_suffix} 不支持 [${bit}] ! 请向本站反馈[]中的名称，我会看看是否可以添加支持。" && exit 1
 	fi
