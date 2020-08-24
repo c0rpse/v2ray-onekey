@@ -50,33 +50,23 @@ Download_caddy(){
 		extension_all="?license=personal"
 	fi
 
-# 	if [[ ${bit} == "x86_64" ]]; then
-# 		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://caddyserver.com/api/download?os=linux&arch=amd64${extension_all}"
-# 	elif [[ ${bit} == "i386" || ${bit} == "i686" ]]; then
-# 		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://caddyserver.com/api/download?os=linux&arch=386${extension_all}"
-# 	elif [[ ${bit} == "armv7l" ]]; then
-# 		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://caddyserver.com/api/download?os=linux&arch=arm7${extension_all}"
-# 	else
-# 		echo -e "${Error_font_prefix}[错误]${Font_suffix} 不支持 [${bit}] ! 请向本站反馈[]中的名称，我会看看是否可以添加支持。" && exit 1
-# 	fi
-# 	[[ ! -e "caddy_linux.tar.gz" ]] && echo -e "${Error_font_prefix}[错误]${Font_suffix} Caddy 下载失败 !" && exit 1
-# 	tar zxf "caddy_linux.tar.gz"
-# 	rm -rf "caddy_linux.tar.gz"
-
 	if [[ ${bit} == "x86_64" ]]; then
-		curl --output caddy -XGET "https://caddyserver.com/api/download?os=linux&arch=amd64"
+		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/caddy/caddy_arm64.tar.gz"
 	elif [[ ${bit} == "i386" || ${bit} == "i686" ]]; then
-		curl --output caddy -XGET "https://caddyserver.com/api/download?os=linux&arch=386"
+		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/caddy/caddy_386.tar.gz"
 	elif [[ ${bit} == "armv7l" ]]; then
-		curl --output caddy -XGET "https://caddyserver.com/api/download?os=linux&arch=arm7"
+		wget --no-check-certificate -O "caddy_linux.tar.gz" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/caddy/caddy_arm7.tar.gz"
 	else
 		echo -e "${Error_font_prefix}[错误]${Font_suffix} 不支持 [${bit}] ! 请向本站反馈[]中的名称，我会看看是否可以添加支持。" && exit 1
 	fi
-	[[ ! -e ${caddy_file} ]] && echo -e "${Error_font_prefix}[错误]${Font_suffix} Caddy 下载失败 !" && exit 1
-# 	rm -rf LICENSES.txt
-# 	rm -rf README.txt
-# 	rm -rf CHANGES.txt
-# 	rm -rf "init/"
+	[[ ! -e "caddy_linux.tar.gz" ]] && echo -e "${Error_font_prefix}[错误]${Font_suffix} Caddy 下载失败 !" && exit 1
+	tar zxf "caddy_linux.tar.gz"
+	rm -rf "caddy_linux.tar.gz"
+
+	rm -rf LICENSES.txt
+	rm -rf README.txt
+	rm -rf CHANGES.txt
+	rm -rf "init/"
 	chmod +x caddy
 }
 Service_caddy(){
