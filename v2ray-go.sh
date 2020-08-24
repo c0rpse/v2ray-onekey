@@ -639,7 +639,7 @@ function data_processing(){
 				clear_install
 				exit 1
 			fi
-			bash <(curl https://raw.githubusercontent.com/ToyoDAdoubi/doubi/master/caddy_install.sh)
+			bash <(curl https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/caddy_install.sh)
 			if [[ $? -eq 0 ]];then
 #clear
 				echo -e "${ok_font}Caddy 安装成功。"
