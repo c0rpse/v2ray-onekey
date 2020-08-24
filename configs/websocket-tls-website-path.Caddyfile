@@ -1,7 +1,3 @@
-http://V2rayAddress {
-  timeouts none
-  redir https://V2rayAddress{url}
-}
 https://V2rayAddress
 {
   root /etc/v2ray/pages

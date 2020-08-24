@@ -165,7 +165,7 @@ function data_processing(){
 		fi
 	fi
 		if [[ ${determine_type} = "1" ]]; then
-			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/1715173329/v2ray-onekey/master/configs/socks5.json"
+			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/socks5.json"
 			if [[ $? -eq 0 ]];then
 				clear
 				echo -e "${ok_font}Socks5 配置文件下载成功。"
@@ -219,7 +219,7 @@ function data_processing(){
 			restart_service
 			echo_v2ray_config
 		elif [[ ${determine_type} = "2" ]]; then
-			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/1715173329/v2ray-onekey/master/configs/tcp-http.json"
+			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/tcp-http.json"
 			if [[ $? -eq 0 ]];then
 				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
@@ -283,7 +283,7 @@ function data_processing(){
 				clear_install
 				exit 1
 			fi
-			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/1715173329/v2ray-onekey/master/configs/tcp-tls.json"
+			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/tcp-tls.json"
 			if [[ $? -eq 0 ]];then
 				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
@@ -384,7 +384,7 @@ function data_processing(){
 			restart_service
 			echo_v2ray_config
 		elif [[ ${determine_type} = "4" ]]; then
-			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/1715173329/v2ray-onekey/master/configs/mkcp-utp.json"
+			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/mkcp-utp.json"
 			if [[ $? -eq 0 ]];then
 				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
@@ -419,7 +419,7 @@ function data_processing(){
 			restart_service
 			echo_v2ray_config
 		elif [[ ${determine_type} = "5" ]]; then
-			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/1715173329/v2ray-onekey/master/configs/mkcp-dtls.json"
+			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/mkcp-dtls.json"
 			if [[ $? -eq 0 ]];then
 				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
@@ -454,7 +454,7 @@ function data_processing(){
 			restart_service
 			echo_v2ray_config
 		elif [[ ${determine_type} = "6" ]]; then
-			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/1715173329/v2ray-onekey/master/configs/mkcp-srtp-dynport.json"
+			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/mkcp-srtp-dynport.json"
 			if [[ $? -eq 0 ]];then
 				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
@@ -516,7 +516,7 @@ function data_processing(){
 				clear_install
 				exit 1
 			fi
-			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/1715173329/v2ray-onekey/master/configs/h2-path.json"
+			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/h2-path.json"
 			if [[ $? -eq 0 ]];then
 				clear
 				echo -e "${ok_font}V2Ray 配置文件下载成功。"
@@ -648,8 +648,8 @@ function data_processing(){
 				clear_install
 				exit 1
 			fi
-			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/1715173329/v2ray-onekey/master/configs/websocket-tls-website-path.json"
-			wget -O "/usr/local/caddy/Caddyfile" "https://raw.githubusercontent.com/1715173329/v2ray-onekey/master/configs/websocket-tls-website-path.Caddyfile"
+			wget -O "/etc/v2ray/config.json" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/websocket-tls-website-path.json"
+			wget -O "/usr/local/caddy/Caddyfile" "https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/configs/websocket-tls-website-path.Caddyfile"
 			clear
 			install_port="80"
 			check_port
@@ -786,7 +786,7 @@ function data_processing(){
 					clear_install
 					exit 1
 				fi
-				wget -O "/etc/v2ray/pages/v2ray-page.zip" "https://github.com/1715173329/v2ray-onekey/blob/master/pages/v2ray-page.zip?raw=true"
+				wget -O "/etc/v2ray/pages/v2ray-page.zip" "https://github.com/c0rpse/v2ray-onekey/blob/master/pages/v2ray-page.zip?raw=true"
 				if [[ $? -eq 0 ]];then
 					clear
 					echo -e "${ok_font}下载网页文件压缩包成功。"
@@ -919,7 +919,7 @@ function upgrade_shell_script(){
 	echo -e "正在更新脚本中..."
 	filepath=$(cd "$(dirname "$0")"; pwd)
 	filename=$(echo -e "${filepath}"|awk -F "$0" '{print $1}')
-	curl -O https://raw.githubusercontent.com/1715173329/v2ray-onekey/master/v2ray-go.sh
+	curl -O https://raw.githubusercontent.com/c0rpse/v2ray-onekey/master/v2ray-go.sh
 	if [[ $? -eq 0 ]];then
 		clear
 		echo -e "${ok_font}脚本更新成功，脚本位置：\"${green_backgroundcolor}${filename}/v2ray-go.sh${default_fontcolor}\"，使用：\"${green_backgroundcolor}bash ${filename}/v2ray-go.sh${default_fontcolor}\"。"
@@ -1523,7 +1523,7 @@ function echo_v2ray_config(){
 \"net\": \"h2\",
 \"type\": \"none\",
 \"host\": \"\",
-\"path\": \"/fuckgfw_gfwmotherfuckingboom/${UUID2}\",
+\"path\": \"/eye4eye/${UUID2}\",
 \"tls\": \"tls\"
 }" | base64)
 		echo -e "您的连接信息如下："
@@ -1535,7 +1535,7 @@ function echo_v2ray_config(){
 		echo -e "加密方式(Security)：none"
 		echo -e "传输协议(Network）：h2"
 		echo -e "伪装类型：none"
-		echo -e "路径Path：/fuckgfw_gfwmotherfuckingboom/${UUID2}"
+		echo -e "路径Path：/eye4eye/${UUID2}"
 		echo -e "Vmess链接：${green_backgroundcolor}${vmesslink}${default_fontcolor}"
 	elif [[ ${determine_type} = "8" ]]; then
 		clear
@@ -1549,7 +1549,7 @@ function echo_v2ray_config(){
 \"net\": \"ws\",
 \"type\": \"none\",
 \"host\": \"\",
-\"path\": \"/fuckgfw_gfwmotherfuckingboom/${UUID2}\",
+\"path\": \"/eye4eye/${UUID2}\",
 \"tls\": \"tls\"
 }" | base64)
 		echo -e "您的连接信息如下："
@@ -1561,7 +1561,7 @@ function echo_v2ray_config(){
 		echo -e "加密方式(Security)：none"
 		echo -e "传输协议(Network）：ws"
 		echo -e "伪装类型：none"
-		echo -e "路径Path：/fuckgfw_gfwmotherfuckingboom/${UUID2}"
+		echo -e "路径Path：/eye4eye/${UUID2}"
 		echo -e "Vmess链接：${green_backgroundcolor}${vmesslink}${default_fontcolor}"
 	fi
 	echo -e "${vmesslink}" > /etc/v2ray/vmess_link.txt
