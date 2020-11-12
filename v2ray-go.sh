@@ -391,7 +391,7 @@ function data_processing(){
 					clear_install
 					exit 1
 				fi
-			fi
+
 			echo "3" > /usr/local/etc/v2ray/install_type.txt
 			if [[ $? -eq 0 ]];then
 #clear
