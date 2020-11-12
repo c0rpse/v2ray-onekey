@@ -330,7 +330,6 @@ function data_processing(){
 				clear_linstall
 				exit 1
 		    fi
-
             stty erase '^H' && read -p "请输入您的CF Token：" cloudflare_token
             if [[ ${cloudflare_token} = "" ]]; then
                 echo -e "${error_font}请输入您的CF Token。"
@@ -694,9 +693,24 @@ function data_processing(){
 				clear_install
 				exit 1
 			else
-#clear
-				echo -e "正在签发证书中..."
-				bash ~/.acme.sh/acme.sh --issue -d ${install_domain} --standalone -k ec-256 --force
+#clear          stty erase '^H' && read -p "请输入您的CF Token：" cloudflare_token
+            if [[ ${cloudflare_token} = "" ]]; then
+                echo -e "${error_font}请输入您的CF Token。"
+                clear_linstall
+                exit 1
+            fi
+            stty erase '^H' && read -p "请输入您的CF Email：" cloudflare_email
+            if [[ ${cloudflare_email} = "" ]]; then
+                echo -e "${error_font}请输入您的CF Email。"
+                clear_linstall
+                exit 1
+            fi
+            echo -e "正在签发证书中..."
+            export CF_Key="${cloudflare_token}"
+            export CF_Email="${cloudflare_email}"
+
+            bash ~/.acme.sh/acme.sh --issue -d ${install_domain} --dns dns_cf -k ec-256 --force
+
 				if [[ $? -eq 0 ]];then
 #clear
 					echo -e "${ok_font}证书生成成功。"
