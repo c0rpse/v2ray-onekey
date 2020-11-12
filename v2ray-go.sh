@@ -329,19 +329,19 @@ function data_processing(){
 				echo -e "${error_font}请输入您的域名。"
 				clear_linstall
 				exit 1
-			else
-                stty erase '^H' && read -p "请输入您的CF Token：" cloudflare_token
+
+            stty erase '^H' && read -p "请输入您的CF Token：" cloudflare_token
                 if [[ ${cloudflare_token} = "" ]]; then
                     echo -e "${error_font}请输入您的CF Token。"
                     clear_linstall
                     exit 1
-                else
+
                     stty erase '^H' && read -p "请输入您的CF Email：" cloudflare_email
                     if [[ ${cloudflare_email} = "" ]]; then
                         echo -e "${error_font}请输入您的CF Email。"
                         clear_linstall
                         exit 1
-                    else
+
                         echo -e "正在签发证书中..."
                         export CF_Key="${cloudflare_token}"
                         export CF_Email="${cloudflare_email}"
@@ -366,8 +366,8 @@ function data_processing(){
                             clear_install
                             exit 1
                         fi
-                    fi
-				fi
+
+
 
 				sed -i "s/V2rayAddress/${install_domain}/g" "/usr/local/etc/v2ray/config.json"
 				if [[ $? -eq 0 ]];then
