@@ -368,7 +368,7 @@ function data_processing(){
                             clear_install
                             exit 1
                         fi
-                fi
+
 
 
 				sed -i "s/V2rayAddress/${install_domain}/g" "/usr/local/etc/v2ray/config.json"
