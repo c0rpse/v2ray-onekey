@@ -693,16 +693,17 @@ function data_processing(){
 				clear_install
 				exit 1
 			else
-#clear          stty erase '^H' && read -p "请输入您的CF Token：" cloudflare_token
+#clear
+            stty erase '^H' && read -p "请输入您的CF Token：" cloudflare_token
             if [[ ${cloudflare_token} = "" ]]; then
                 echo -e "${error_font}请输入您的CF Token。"
-                clear_linstall
+                clear_install
                 exit 1
             fi
             stty erase '^H' && read -p "请输入您的CF Email：" cloudflare_email
             if [[ ${cloudflare_email} = "" ]]; then
                 echo -e "${error_font}请输入您的CF Email。"
-                clear_linstall
+                clear_install
                 exit 1
             fi
             echo -e "正在签发证书中..."
